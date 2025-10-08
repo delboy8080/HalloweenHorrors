@@ -16,6 +16,10 @@ public class Zombie : MonoBehaviour
     bool isIdle=false;
     public float idleTime = 2;
 
+    [SerializeField] float fireTimer = 0.5f;
+    float fireCountdown = 0;
+    [SerializeField] GameObject projectilePrefab;
+
 
 
     // Start is called before the first frame update
@@ -58,6 +62,17 @@ public class Zombie : MonoBehaviour
             {
                 idleTime -= Time.deltaTime;
             }
+
+            RaycastHit2D hit = Physics2D.Raycast(transform.position,
+                new Vector2(direction, 0), 5f, LayerMask.GetMask("Player"));
+            if(hit.collider !=null)
+            {
+                if(hit.collider.GetComponent<Player>()!=null)
+                {
+                    fire();
+                }
+            }
+            fireCountdown -= Time.deltaTime; 
         }
         else
         {
@@ -80,6 +95,18 @@ public class Zombie : MonoBehaviour
                 _animator.SetBool("Dead", true);
             }
 
+        }
+    }
+
+    private void fire()
+    {
+        if(fireCountdown < 0)
+        {
+            fireCountdown = fireTimer;
+            GameObject projectile = Instantiate(projectilePrefab
+                ,GetComponent<Rigidbody2D>().position, Quaternion.identity);
+            Projectile script = projectile.GetComponent<Projectile>();
+            script.Launch(new Vector2(direction, 0), 300);
         }
     }
 }
