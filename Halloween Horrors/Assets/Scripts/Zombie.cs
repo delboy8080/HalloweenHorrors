@@ -10,6 +10,7 @@ public class Zombie : MonoBehaviour
 
     public float distanceTime;
     public float speed;
+    public int health;
 
 
     // Start is called before the first frame update
@@ -25,11 +26,21 @@ public class Zombie : MonoBehaviour
         if (timeInDirection < 0)
         {
             direction = direction * -1;
+            _animator.SetInteger("Direction", direction);
             timeInDirection = distanceTime;
         }
         Vector2 pos = transform.position;
         pos.x = pos.x + (speed * Time.deltaTime *direction);
         transform.position = pos;
         timeInDirection -= Time.deltaTime;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "PlayerProjectile")
+        {
+            health--;
+            Debug.Log(health);
+        }
     }
 }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Collectible
   - SpeedPowerUp
+  - PlayerProjectile
   layers:
   - Default
   - TransparentFX
