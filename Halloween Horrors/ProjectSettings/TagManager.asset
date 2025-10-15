@@ -8,6 +8,7 @@ TagManager:
   - SpeedPowerUp
   - PlayerProjectile
   - EnemyProjectile
+  - Checkpoint
   layers:
   - Default
   - TransparentFX
